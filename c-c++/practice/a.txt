@@ -1,0 +1,2 @@
+stdin is 0
+stdout is 0
