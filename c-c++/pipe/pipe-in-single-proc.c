@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     char buf[1024];
     
     ret = pipe(fd);
-    
+    printf("fd[0]:%d, fd[1]:%d\r\n", fd[0], fd[1]); 
     write(fd[1], "hello", 6);
     cnt = read(fd[0], buf, 1024);
     printf("cnt:%d\r\n", cnt);
