@@ -33,6 +33,7 @@ int main(int argc, char **argv)
                 printf("dup2 error!\r\n");
             close(fd[0]);    
         }        
+        //test.out from isatty.c
         execl("./test.out", "hel", (char *)0);
     }     
 
