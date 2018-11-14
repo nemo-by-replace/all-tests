@@ -1,0 +1,53 @@
+#include <iostream>
+using namespace std;
+
+template <typename T, typename T1>
+class test {
+public:
+	T test1(T1 t);
+	void test1(T t, T1 t1);
+	void test2(T1 t);
+	T test3(T1 t) { cout << "this is" << t << endl; return (T)1; }
+};
+
+template <typename T, typename T1> T test<T, T1>::test1(T1 t)
+{
+	cout << "this is " << t << endl;
+	
+	return (T)1;
+}
+
+template <typename T, typename T1> void test<T, T1>::test1(T t, T1 t1)
+{
+	cout << "this is " << t << "-" <<t1 << endl;
+	
+	return ;
+}
+
+/* wrong,
+template <typename T1> void test<T1>::test1(T1 t)
+{
+	cout << "this is " << t << endl;
+	
+	return ;
+}
+*/
+
+template <typename T, typename T1> void test<T, T1>::test2(T1 t)
+{
+	cout << "this is " << t << endl;
+	
+	return ;
+}
+
+
+int main(int argc, char *argv[])
+{
+	/*
+	test<int, int> t;
+	t.test1(4);
+	t.test1(4, 6);
+	t.test2(5);
+	t.test2(5.6);
+	*/
+}
