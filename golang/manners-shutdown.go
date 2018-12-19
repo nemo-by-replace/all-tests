@@ -28,6 +28,7 @@ func newHandler() *handler {
 type handler struct{}
 
 func (h *handler) ServeHTTP(res http.ResponseWriter, req *http.Request) {
+	fmt.Printf("%s, %#v", req.URL.Path, req)
 	query := req.URL.Query()
 	name := query.Get("name")
 	if name == "" {
