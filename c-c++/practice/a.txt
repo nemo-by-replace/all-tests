@@ -1,3 +1,13 @@
-a.out
-a.txt
-isatty.c
+golden.c: In function ‘main’:
+golden.c:12:140: error: ‘ASCII_COLOR_END’ undeclared (first use in this function)
+ #define DBG(fmt, args...) {do{printf(ASCII_COLOR_RED"[MODE_DBG ]: %s:%s[%d]: ",__FILE__, __FUNCTION__,__LINE__);printf(fmt, ##args);printf(ASCII_COLOR_END);}while(0);}
+                                                                                                                                            ^
+golden.c:872:5: note: in expansion of macro ‘DBG’
+     DBG("Entrance!\r\n");
+     ^
+golden.c:12:140: note: each undeclared identifier is reported only once for each function it appears in
+ #define DBG(fmt, args...) {do{printf(ASCII_COLOR_RED"[MODE_DBG ]: %s:%s[%d]: ",__FILE__, __FUNCTION__,__LINE__);printf(fmt, ##args);printf(ASCII_COLOR_END);}while(0);}
+                                                                                                                                            ^
+golden.c:872:5: note: in expansion of macro ‘DBG’
+     DBG("Entrance!\r\n");
+     ^
