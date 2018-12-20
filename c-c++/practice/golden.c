@@ -9,8 +9,10 @@ typedef signed short s16;
 typedef signed int s32;
 
 #define ASCII_COLOR_RED "\033[1;31m"
+#define ASCII_COLOR_YEL "\033[1;33m"
+#define ASCII_COLOR_GRN "\033[1;32m"
 #define ASCII_COLOR_END "\033[0m"
-#define DBG(fmt, args...) {do{printf(ASCII_COLOR_RED"[MODE_DBG ]: %s:%s[%d]: ",__FILE__, __FUNCTION__,__LINE__);printf(fmt, ##args);printf(ASCII_COLOR_END);}while(0);}
+#define DBG(color, fmt, args...) {do{printf(color"[MODE_DBG ]: %s:%s[%d]: ",__FILE__, __FUNCTION__,__LINE__);printf(fmt, ##args);printf(ASCII_COLOR_END);}while(0);}
 #define OFFSET_OF(type, mem) ((int)&(((type *)0) ->mem))
 
 static u32 read_light_when_light_on;
@@ -871,7 +873,10 @@ int main(int argc, char **argv) {
         return -2;
     }
 
-    DBG("Entrance!\r\n");
+    DBG(ASCII_COLOR_RED, "Entrance!\r\n");
+
+    read_config();
+    
     memset((void *)linebuf, 0x00, 1024);
     linenum = 0;
     fgets(linebuf, 1024, fp);
@@ -902,10 +907,11 @@ int main(int argc, char **argv) {
         }
 
         if(board_info.off_duration && board_info.off_duration % 3600 == 0) {
-            DBG("One Hour, Capture!\r\n");
+            DBG(ASCII_COLOR_RED, "One Hour, Capture!\r\n");
             board_info.temp_base = avg(board_info.prev_temp, 10);
             board_info.humidity_base = avg(board_info.prev_humidity, 10);
             board_info.smell_base = avg(board_info.prev_smell, 10);
+            DBG(ASCII_COLOR_RED, "temp_base:%d, humidity_base:%d, smell_base:%d\r\n", board_info.temp_base, board_info.humidity_base, board_info.smell_base);
 
             board_info.fan[board_info.cook_type][1].humidity = board_info.humidity_base * board_info.fan[board_info.cook_type][1].humidity_factor;
             board_info.fan[board_info.cook_type][1].temp = board_info.temp_base * board_info.fan[board_info.cook_type][1].temp_factor;
@@ -923,7 +929,13 @@ int main(int argc, char **argv) {
             board_info.fan[board_info.cook_type][4].temp = board_info.temp_base * board_info.fan[board_info.cook_type][4].temp_factor;
             board_info.fan[board_info.cook_type][4].smell = board_info.smell_base * board_info.fan[board_info.cook_type][4].smell_factor;  
 
-            sleep(10);             
+            DBG(ASCII_COLOR_RED, "cook_type:%d\r\n", board_info.cook_type);
+            for(int i = 0; i < 5; i ++) {
+                DBG(ASCII_COLOR_RED, "baord_info.fan[%d][%d].humidity:%d\r\n", board_info.cook_type, i, board_info.fan[board_info.cook_type][i].humidity);
+                DBG(ASCII_COLOR_RED, "baord_info.fan[%d][%d].temp:%d\r\n", board_info.cook_type, i, board_info.fan[board_info.cook_type][i].temp);
+                DBG(ASCII_COLOR_RED, "baord_info.fan[%d][%d].smell:%d\r\n", board_info.cook_type, i, board_info.fan[board_info.cook_type][i].smell);
+            }
+            sleep(5);             
         }    
 
         board_info.prev_humidity[board_info.prev_humidity_i] = board_info.humidity;
