@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <sys/stat.h>
  
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -26,9 +27,9 @@ typedef struct {
 }base_info;
 
 typedef struct {
-    u16 temp;
-    u16 humidity;
-    u16 smell;
+    s16 temp;
+    s16 humidity;
+    s16 smell;
     float temp_factor;
     float humidity_factor;
     float smell_factor;
@@ -182,215 +183,224 @@ void read_config(void)
     board_info.fan[0][0].temp = 5000;
     board_info.fan[0][0].smell = 500;
     board_info.fan[0][0].humidity_factor = 1.3;
-    board_info.fan[0][1].temp_factor = 1.3;
-    board_info.fan[0][1].smell_factor = 1.3;
+    board_info.fan[0][0].temp_factor = 1.3;
+    board_info.fan[0][0].smell_factor = 2.0;
 
     board_info.fan[0][1].humidity = 5000;
     board_info.fan[0][1].temp = 5000;
     board_info.fan[0][1].smell = 500;  
-    board_info.fan[0][1].humidity_factor = 1.5;
+    board_info.fan[0][1].humidity_factor = 1.6;
     board_info.fan[0][1].temp_factor = 1.5;
-    board_info.fan[0][1].smell_factor = 1.5;
-    
+    board_info.fan[0][1].smell_factor = 3.3;
+
     board_info.fan[0][2].humidity = 5000;
     board_info.fan[0][2].temp = 5000;
     board_info.fan[0][2].smell = 500;
-    board_info.fan[0][2].humidity_factor = 1.8;
+    board_info.fan[0][2].humidity_factor = 2.5;
     board_info.fan[0][2].temp_factor = 1.8;
-    board_info.fan[0][2].smell_factor = 1.8;
+    board_info.fan[0][2].smell_factor = 10;
 
     board_info.fan[0][3].humidity = 5000;
     board_info.fan[0][3].temp = 5000;
     board_info.fan[0][3].smell = 500;
-    board_info.fan[0][3].humidity_factor = 2.1;
+    board_info.fan[0][3].humidity_factor = 3.8;
     board_info.fan[0][3].temp_factor = 2.1;
-    board_info.fan[0][3].smell_factor = 2.1;
+    board_info.fan[0][3].smell_factor = 23.0;
     
     board_info.fan[0][4].humidity = 5000;
     board_info.fan[0][4].temp = 5000;
     board_info.fan[0][4].smell = 500;
-    board_info.fan[0][4].humidity_factor = 2.2;
+    board_info.fan[0][4].humidity_factor = 4.0;
     board_info.fan[0][4].temp_factor = 2.2;
-    board_info.fan[0][4].smell_factor = 2.2;
+    board_info.fan[0][4].smell_factor = 25.0;
 
     board_info.fan[1][0].humidity = 5000;
     board_info.fan[1][0].temp = 5000;
     board_info.fan[1][0].smell = 500;
     board_info.fan[1][0].humidity_factor = 1.5;
     board_info.fan[1][0].temp_factor = 1.5;
-    board_info.fan[1][0].smell_factor = 1.5;
+    board_info.fan[1][0].smell_factor = 2.5;
 
     board_info.fan[1][1].humidity = 5000;
     board_info.fan[1][1].temp = 5000;
     board_info.fan[1][1].smell = 500;  
-    board_info.fan[1][1].humidity_factor = 2.0;
+    board_info.fan[1][1].humidity_factor = 1.6;
     board_info.fan[1][1].temp_factor = 2.0;
-    board_info.fan[1][1].smell_factor = 2.0;
+    board_info.fan[1][1].smell_factor = 3.3;
     
     board_info.fan[1][2].humidity = 5000;
     board_info.fan[1][2].temp = 5000;
     board_info.fan[1][2].smell = 500;
     board_info.fan[1][2].humidity_factor = 2.5;
     board_info.fan[1][2].temp_factor = 2.5;
-    board_info.fan[1][2].smell_factor = 2.5;
+    board_info.fan[1][2].smell_factor = 10.0;
 
     board_info.fan[1][3].humidity = 5000;
     board_info.fan[1][3].temp = 5000;
     board_info.fan[1][3].smell = 500;
-    board_info.fan[1][3].humidity_factor = 2.6; 
+    board_info.fan[1][3].humidity_factor = 3.8; 
     board_info.fan[1][3].temp_factor = 2.6;
-    board_info.fan[1][3].smell_factor = 2.6;
+    board_info.fan[1][3].smell_factor = 23.0;
 
     board_info.fan[1][4].humidity = 5000;
     board_info.fan[1][4].temp = 5000;
     board_info.fan[1][4].smell = 500;
-    board_info.fan[1][4].humidity_factor = 2.7; 
+    board_info.fan[1][4].humidity_factor = 4.0; 
     board_info.fan[1][4].temp_factor = 2.7;
-    board_info.fan[1][4].smell_factor = 2.7;    
+    board_info.fan[1][4].smell_factor = 33;    
 
     board_info.fan[2][0].humidity = 5000;
     board_info.fan[2][0].temp = 5000;
     board_info.fan[2][0].smell = 500;
-    board_info.fan[2][0].humidity_factor = 1.5;
+    board_info.fan[2][0].humidity_factor = 1.3;
     board_info.fan[2][0].temp_factor = 1.5;
-    board_info.fan[2][0].smell_factor = .5;
+    board_info.fan[2][0].smell_factor = 2.5;
 
     board_info.fan[2][1].humidity = 5000;
     board_info.fan[2][1].temp = 5000;
     board_info.fan[2][1].smell = 500;  
-    board_info.fan[2][1].humidity_factor = 2.0;
+    board_info.fan[2][1].humidity_factor = 1.6;
     board_info.fan[2][1].temp_factor = 2.0;
-    board_info.fan[2][1].smell_factor = 2.0;
+    board_info.fan[2][1].smell_factor = 3.3;
     
     board_info.fan[2][2].humidity = 5000;
     board_info.fan[2][2].temp = 5000;
     board_info.fan[2][2].smell = 500;
     board_info.fan[2][2].humidity_factor = 2.5;
     board_info.fan[2][2].temp_factor = 2.5;
-    board_info.fan[2][2].smell_factor = 2.5;
+    board_info.fan[2][2].smell_factor = 10.0;
 
     board_info.fan[2][3].humidity = 5000;
     board_info.fan[2][3].temp = 5000;
     board_info.fan[2][3].smell = 500;
-    board_info.fan[2][3].humidity_factor = 2.6;   
+    board_info.fan[2][3].humidity_factor = 3.8;   
     board_info.fan[2][3].temp_factor = 2.6;
-    board_info.fan[2][3].smell_factor = 2.6;
+    board_info.fan[2][3].smell_factor = 23.0;
 
     board_info.fan[2][4].humidity = 5000;
     board_info.fan[2][4].temp = 5000;
     board_info.fan[2][4].smell = 500;
-    board_info.fan[2][4].humidity_factor = 2.7;   
+    board_info.fan[2][4].humidity_factor = 4.0;   
     board_info.fan[2][4].temp_factor = 2.7;
-    board_info.fan[2][4].smell_factor = 2.7;    
+    board_info.fan[2][4].smell_factor = 33.0;    
 
-    board_info.delta_fan[0][0].humidity = 1;
-    board_info.delta_fan[0][0].temp = 1;
-    board_info.delta_fan[0][0].smell = 1;
-    board_info.delta_fan[0][0].humidity_factor = 1.1;
-    board_info.delta_fan[0][0].temp_factor = 1.1;
-    board_info.delta_fan[0][0].smell_factor = 1.1;
+    board_info.delta_fan[0][0].humidity = 1000;
+    board_info.delta_fan[0][0].temp = 1000;
+    board_info.delta_fan[0][0].smell = 1000;
+    board_info.delta_fan[0][0].humidity_factor = 1.100;
+    board_info.delta_fan[0][0].temp_factor = 1.100;
+    board_info.delta_fan[0][0].smell_factor = 1.100;
 
-    board_info.delta_fan[0][1].humidity = 1;
-    board_info.delta_fan[0][1].temp = 1;
-    board_info.delta_fan[0][1].smell = 1;   
+    board_info.delta_fan[0][1].humidity = 1000;
+    board_info.delta_fan[0][1].temp = 100;
+    board_info.delta_fan[0][1].smell = 1000;   
     board_info.delta_fan[0][1].humidity_factor = 1.2;
     board_info.delta_fan[0][1].temp_factor = 1.2;
     board_info.delta_fan[0][1].smell_factor = 1.2;
 
-    board_info.delta_fan[0][2].humidity = 1;
-    board_info.delta_fan[0][2].temp = 1;
-    board_info.delta_fan[0][2].smell = 1;
+    board_info.delta_fan[0][2].humidity = 1000;
+    board_info.delta_fan[0][2].temp = 1000;
+    board_info.delta_fan[0][2].smell = 1000;
     board_info.delta_fan[0][2].humidity_factor = 1.3;
     board_info.delta_fan[0][2].temp_factor = 1.3;
     board_info.delta_fan[0][2].smell_factor = 1.3;
 
-    board_info.delta_fan[0][3].humidity = 1;
-    board_info.delta_fan[0][3].temp = 1;
-    board_info.delta_fan[0][3].smell = 1;    
+    board_info.delta_fan[0][3].humidity = 1000;
+    board_info.delta_fan[0][3].temp = 1000;
+    board_info.delta_fan[0][3].smell = 1000;    
     board_info.delta_fan[0][3].humidity_factor = 1.4;
     board_info.delta_fan[0][3].temp_factor = 1.4;
     board_info.delta_fan[0][3].smell_factor = 1.4;
 
-    board_info.delta_fan[0][4].humidity = 1;
-    board_info.delta_fan[0][4].temp = 1;
-    board_info.delta_fan[0][4].smell = 1;    
+    board_info.delta_fan[0][4].humidity = 1000;
+    board_info.delta_fan[0][4].temp = 1000;
+    board_info.delta_fan[0][4].smell = 1000;    
     board_info.delta_fan[0][4].humidity_factor = 1.5;
     board_info.delta_fan[0][4].temp_factor = 1.5;
     board_info.delta_fan[0][4].smell_factor = 1.5;    
 
-    board_info.delta_fan[1][0].humidity = 1;
-    board_info.delta_fan[1][0].temp = 1;
-    board_info.delta_fan[1][0].smell = 1;
+    board_info.delta_fan[1][0].humidity = 1000;
+    board_info.delta_fan[1][0].temp = 1000;
+    board_info.delta_fan[1][0].smell = 1000;
     board_info.delta_fan[1][0].humidity_factor = 1.3;
     board_info.delta_fan[1][0].temp_factor = 1.3;
     board_info.delta_fan[1][0].smell_factor = 1.3;
 
-    board_info.delta_fan[1][1].humidity = 1;
-    board_info.delta_fan[1][1].temp = 1;
-    board_info.delta_fan[1][1].smell = 1;    
+    board_info.delta_fan[1][1].humidity = 1000;
+    board_info.delta_fan[1][1].temp = 1000;
+    board_info.delta_fan[1][1].smell = 1000;    
     board_info.delta_fan[1][1].humidity_factor = 1.4;
     board_info.delta_fan[1][1].temp_factor = 1.4;
     board_info.delta_fan[1][1].smell_factor = 1.4;
 
-    board_info.delta_fan[1][2].humidity = 1;
-    board_info.delta_fan[1][2].temp = 1;
-    board_info.delta_fan[1][2].smell = 1;
+    board_info.delta_fan[1][2].humidity = 1000;
+    board_info.delta_fan[1][2].temp = 1000;
+    board_info.delta_fan[1][2].smell = 1000;
     board_info.delta_fan[1][2].humidity_factor = 1.5;
     board_info.delta_fan[1][2].temp_factor = 1.5;
     board_info.delta_fan[1][2].smell_factor = 1.5;
 
-    board_info.delta_fan[1][3].humidity = 1;
-    board_info.delta_fan[1][3].temp = 1;
-    board_info.delta_fan[1][3].smell = 1;    
+    board_info.delta_fan[1][3].humidity = 1000;
+    board_info.delta_fan[1][3].temp = 1000;
+    board_info.delta_fan[1][3].smell = 1000;    
     board_info.delta_fan[1][3].humidity_factor = 1.6;
     board_info.delta_fan[1][3].temp_factor = 1.6;
     board_info.delta_fan[1][3].smell_factor = 1.6;
 
-    board_info.delta_fan[1][4].humidity = 1;
-    board_info.delta_fan[1][4].temp = 1;
-    board_info.delta_fan[1][4].smell = 1;    
+    board_info.delta_fan[1][4].humidity = 1000;
+    board_info.delta_fan[1][4].temp = 1000;
+    board_info.delta_fan[1][4].smell = 1000;    
     board_info.delta_fan[1][4].humidity_factor = 1.7;
     board_info.delta_fan[1][4].temp_factor = 1.7;
     board_info.delta_fan[1][4].smell_factor = 1.7;    
 
-    board_info.delta_fan[2][0].humidity = 1;
-    board_info.delta_fan[2][0].temp = 1;
-    board_info.delta_fan[2][0].smell = 1;
+    board_info.delta_fan[2][0].humidity = 1000;
+    board_info.delta_fan[2][0].temp = 1000;
+    board_info.delta_fan[2][0].smell = 1000;
     board_info.delta_fan[2][0].humidity_factor = 1.2;
     board_info.delta_fan[2][0].temp_factor = 1.2;
     board_info.delta_fan[2][0].smell_factor = 1.2;
 
-    board_info.delta_fan[2][1].humidity = 1;
-    board_info.delta_fan[2][1].temp = 1;
-    board_info.delta_fan[2][1].smell = 1;    
+    board_info.delta_fan[2][1].humidity = 1000;
+    board_info.delta_fan[2][1].temp = 1000;
+    board_info.delta_fan[2][1].smell = 1000;    
     board_info.delta_fan[2][1].humidity_factor = 1.3;
     board_info.delta_fan[2][1].temp_factor = 1.3;
     board_info.delta_fan[2][1].smell_factor = 1.3;
 
-    board_info.delta_fan[2][2].humidity = 1;
-    board_info.delta_fan[2][2].temp = 1;
-    board_info.delta_fan[2][2].smell = 1;
+    board_info.delta_fan[2][2].humidity = 1000;
+    board_info.delta_fan[2][2].temp = 1000;
+    board_info.delta_fan[2][2].smell = 1000;
     board_info.delta_fan[2][2].humidity_factor = 1.4;
     board_info.delta_fan[2][2].temp_factor = 1.4;
     board_info.delta_fan[2][2].smell_factor = 1.4;
 
-    board_info.delta_fan[2][3].humidity = 1;
-    board_info.delta_fan[2][3].temp = 1;
-    board_info.delta_fan[2][3].smell = 1;    
+    board_info.delta_fan[2][3].humidity = 1000;
+    board_info.delta_fan[2][3].temp = 1000;
+    board_info.delta_fan[2][3].smell = 1000;    
     board_info.delta_fan[2][3].humidity_factor = 1.5;
     board_info.delta_fan[2][3].temp_factor = 1.5;
     board_info.delta_fan[2][3].smell_factor = 1.5;
 
-    board_info.delta_fan[2][4].humidity = 1;
-    board_info.delta_fan[2][4].temp = 1;
-    board_info.delta_fan[2][4].smell = 1;    
+    board_info.delta_fan[2][4].humidity = 1000;
+    board_info.delta_fan[2][4].temp = 1000;
+    board_info.delta_fan[2][4].smell = 1000;    
     board_info.delta_fan[2][4].humidity_factor = 1.6;
     board_info.delta_fan[2][4].temp_factor = 1.6;
     board_info.delta_fan[2][4].smell_factor = 1.6;    
 }
 
 void set_fan(u8 fan) { 
-    printf("fan:%d\r\n", fan);
+    board_info.fanx_run_time = 0;
+    board_info.fanx_run_time = 0;
+    board_info.high_temp_up = 0;
+    board_info.delta_high_temp_up = 0;
+    board_info.condition1_down = 0;
+    board_info.condition2_down = 0;
+    board_info.condition3_down = 0;
+    board_info.condition3_down_time = 0;
+    board_info.condition4_down = 0;    
+    printf("===============================fan:%d,%d\r\n", fan, sec_tick);
 }
 
 u16 avg(u16 *buf, u8 cnt) {
@@ -412,6 +422,7 @@ void fan_up(void) {
                     break;
                 }
                 board_info.fire_check ++;
+                DBG(ASCII_COLOR_GRN, "++board_info.fire_check:%d, %d\r\n", board_info.fire_check, board_info.delay_on);
                 if(board_info.fire_check >= board_info.delay_on) {
                     board_info.temp_min_base = avg(board_info.prev_min_temp, 60);
                     board_info.humidity_min_base = avg(board_info.prev_min_humidity, 60);
@@ -424,22 +435,29 @@ void fan_up(void) {
             }
             else {
                 if(board_info.fire_check > 0) board_info.fire_check --;
+                DBG(ASCII_COLOR_GRN, "--board_info.fire_check:%d, %d\r\n", board_info.fire_check, board_info.delay_on);
             }
         }
         else if(board_info.preoff == 0) {
-            if(board_info.person) {
+            if(board_info.person){ 
                 //auto on
-                if((board_info.delta_smell > board_info.delta_fan[board_info.cook_type][1].smell) || (board_info.delta_humidity > board_info.delta_fan[board_info.cook_type][1].humidity)
-                || (board_info.smell > board_info.delta_fan[board_info.cook_type][1].smell) || (board_info.humidity > board_info.delta_fan[board_info.cook_type][1].humidity)) {
+                if(/*(board_info.delta_smell > board_info.delta_fan[board_info.cook_type][1].smell) || (board_info.delta_humidity > board_info.delta_fan[board_info.cook_type][1].humidity)
+                || */(board_info.smell > board_info.fan[board_info.cook_type][1].smell) || (board_info.humidity > board_info.fan[board_info.cook_type][1].humidity)) {
                     board_info.fan_open_check ++;
+                    DBG(ASCII_COLOR_GRN, "board_info.smell:%d, board_info.fan[board_info.cook_type][1].smell:%d, board_info.humidity:%d, board_info.fan[board_info.cook_type][1].humidity:%d\r\n",
+                        board_info.smell, board_info.fan[board_info.cook_type][1].smell, board_info.humidity, board_info.fan[board_info.cook_type][1].humidity);
+                    DBG(ASCII_COLOR_GRN, "++board_info.fan_open_check:%d, %d\r\n", board_info.fan_open_check, board_info.delay_on);
                     if(board_info.fan_open_check > board_info.delay_on) {
                         board_info.fan_level_index = 1;
                         board_info.protective_open_check = 0;
                         board_info.fan_open_check = 0;
                         set_fan(board_info.fan_speed[board_info.fan_level_index]);
-                        board_info.fan[board_info.cook_type][0].humidity = avg(board_info.prev_min_humidity, 60) * board_info.fan[board_info.cook_type][0].humidity_factor;
-                        board_info.fan[board_info.cook_type][0].temp = avg(board_info.prev_min_temp, 60) * board_info.fan[board_info.cook_type][0].temp_factor;
-                        board_info.fan[board_info.cook_type][0].smell = avg(board_info.prev_min_smell, 60) * board_info.fan[board_info.cook_type][0].smell_factor;                        
+                        // board_info.fan[board_info.cook_type][0].humidity = avg(board_info.prev_min_humidity, 60) * board_info.fan[board_info.cook_type][0].humidity_factor;
+                        // board_info.fan[board_info.cook_type][0].temp = avg(board_info.prev_min_temp, 60) * board_info.fan[board_info.cook_type][0].temp_factor;
+                        // board_info.fan[board_info.cook_type][0].smell = avg(board_info.prev_min_smell, 60) * board_info.fan[board_info.cook_type][0].smell_factor; 
+                        // DBG(ASCII_COLOR_RED, "baord_info.fan[%d][%d].humidity:%d\r\n", board_info.cook_type, 0, board_info.fan[board_info.cook_type][0].humidity);
+                        // DBG(ASCII_COLOR_RED, "baord_info.fan[%d][%d].temp:%d\r\n", board_info.cook_type, 0, board_info.fan[board_info.cook_type][0].temp);
+                        // DBG(ASCII_COLOR_RED, "baord_info.fan[%d][%d].smell:%d\r\n", board_info.cook_type, 0, board_info.fan[board_info.cook_type][0].smell);                                                  
                         board_info.fan_level = board_info.fan_speed[board_info.fan_level_index];
                         board_info.fanx_run_time = 0;
                         board_info.high_temp_up = 0;
@@ -453,19 +471,26 @@ void fan_up(void) {
                 }
                 else {
                     if(board_info.fan_open_check > 0) board_info.fan_open_check --;
+                    DBG(ASCII_COLOR_GRN, "--board_info.fan_open_check:%d, %d\r\n", board_info.fan_open_check, board_info.delay_on);
                 }
                 
                 //protective up
                 if(board_info.smell > board_info.fan[board_info.cook_type][1].smell || board_info.temp > board_info.fan[board_info.cook_type][1].temp) {
                     board_info.protective_open_check ++;
+                    DBG(ASCII_COLOR_GRN, "++++++ board_info.protective_open_check:%d\r\n", board_info.protective_open_check);
+                    DBG(ASCII_COLOR_GRN, "board_info.smell:%d, board_info.fan[board_info.cook_type][1].smell:%d, board_info.temp:%d, board_info.fan[board_info.cook_type][1].temp:%d\r\n",
+                        board_info.smell, board_info.fan[board_info.cook_type][1].smell, board_info.temp, board_info.fan[board_info.cook_type][1].temp);
                     if(board_info.protective_open_check > 10) {
                         board_info.fan_level_index = 1;
                         board_info.protective_open_check = 0;
                         board_info.fan_open_check = 0;
                         set_fan(1);
-                        board_info.fan[board_info.cook_type][0].humidity = avg(board_info.prev_min_humidity, 60) * board_info.fan[board_info.cook_type][0].humidity_factor;
-                        board_info.fan[board_info.cook_type][0].temp = avg(board_info.prev_min_temp, 60) * board_info.fan[board_info.cook_type][0].temp_factor;
-                        board_info.fan[board_info.cook_type][0].smell = avg(board_info.prev_min_smell, 60) * board_info.fan[board_info.cook_type][0].smell_factor;
+                        // board_info.fan[board_info.cook_type][0].humidity = avg(board_info.prev_min_humidity, 60) * board_info.fan[board_info.cook_type][0].humidity_factor;
+                        // board_info.fan[board_info.cook_type][0].temp = avg(board_info.prev_min_temp, 60) * board_info.fan[board_info.cook_type][0].temp_factor;
+                        // board_info.fan[board_info.cook_type][0].smell = avg(board_info.prev_min_smell, 60) * board_info.fan[board_info.cook_type][0].smell_factor;
+                        // DBG(ASCII_COLOR_RED, "baord_info.fan[%d][%d].humidity:%d\r\n", board_info.cook_type, 0, board_info.fan[board_info.cook_type][0].humidity);
+                        // DBG(ASCII_COLOR_RED, "baord_info.fan[%d][%d].temp:%d\r\n", board_info.cook_type, 0, board_info.fan[board_info.cook_type][0].temp);
+                        // DBG(ASCII_COLOR_RED, "baord_info.fan[%d][%d].smell:%d\r\n", board_info.cook_type, 0, board_info.fan[board_info.cook_type][0].smell);                        
                         board_info.fan_level = 1;
                         board_info.fanx_run_time = 0;
                         board_info.high_temp_up = 0;
@@ -479,6 +504,7 @@ void fan_up(void) {
                 }
                 else {
                     if(board_info.protective_open_check > 0) board_info.protective_open_check --;
+                    DBG(ASCII_COLOR_GRN, "--board_info.protective_open_check:%d\r\n", board_info.protective_open_check);
                 }
             }
             else {
@@ -488,11 +514,13 @@ void fan_up(void) {
         else if(board_info.preoff) {
             if(board_info.preoff >= 0) {
                 board_info.preoff --;
+                DBG(ASCII_COLOR_GRN, "board_info.preoff:%d\r\n", board_info.preoff);
                 if(board_info.preoff == 0) board_info.fire_flag = 0;
             }
             if((board_info.delta_smell > board_info.delta_fan[board_info.cook_type][1].smell) || (board_info.delta_humidity > board_info.delta_fan[board_info.cook_type][1].humidity)
             || (board_info.smell > board_info.delta_fan[board_info.cook_type][1].smell) || (board_info.humidity > board_info.delta_fan[board_info.cook_type][1].humidity)) {
                 board_info.fan_open_check ++;
+                DBG(ASCII_COLOR_GRN, "board_info.fan_open_check:%d, %d\r\n", board_info.fire_check, board_info.delay_on);
                 if(board_info.fan_open_check > board_info.delay_on) {
                     board_info.fan_level_index = 1;
                     board_info.protective_open_check = 0;
@@ -500,7 +528,8 @@ void fan_up(void) {
                     set_fan(board_info.fan_speed[board_info.fan_level_index]);
                     board_info.fan[board_info.cook_type][0].humidity = avg(board_info.prev_min_humidity, 60) * board_info.fan[board_info.cook_type][0].humidity_factor;
                     board_info.fan[board_info.cook_type][0].temp = avg(board_info.prev_min_temp, 60) * board_info.fan[board_info.cook_type][0].temp_factor;
-                    board_info.fan[board_info.cook_type][0].smell = avg(board_info.prev_min_smell, 60) * board_info.fan[board_info.cook_type][0].smell_factor;                        
+                    board_info.fan[board_info.cook_type][0].smell = avg(board_info.prev_min_smell, 60) * board_info.fan[board_info.cook_type][0].smell_factor;   
+
                     board_info.fan_level = board_info.fan_speed[board_info.fan_level_index];
                     board_info.fanx_run_time = 0;
                     board_info.high_temp_up = 0;
@@ -518,6 +547,9 @@ void fan_up(void) {
         break;
     case 1:
         board_info.fanx_run_time ++;
+        DBG(ASCII_COLOR_GRN, "board_info.fan1_run_time:%d\r\n", board_info.fanx_run_time);    
+        if(board_info.fanx_run_time < board_info.delay_up + 2) break;
+        
         if(board_info.fanx_run_time == board_info.delay_up + 2) {
             u16 tmp;
             u16 a;
@@ -526,7 +558,9 @@ void fan_up(void) {
             a = (tmp + board_info.humidity) / 2;
             if(a > board_info.fan[board_info.cook_type][0].humidity) {
                 board_info.fan[board_info.cook_type][2].humidity *= board_info.fan[board_info.cook_type][2].humidity_factor;
-                board_info.fan[board_info.cook_type][3].humidity = board_info.fan[board_info.cook_type][2].humidity * board_info.fan[board_info.cook_type][3].humidity_factor;
+                board_info.fan[board_info.cook_type][3].humidity = 11225 * 3.8;//board_info.fan[board_info.cook_type][2].humidity * board_info.fan[board_info.cook_type][3].humidity_factor;
+                DBG(ASCII_COLOR_YEL, "%d, %d, %f\r\n", board_info.fan[board_info.cook_type][3].humidity, board_info.fan[board_info.cook_type][2].humidity, board_info.fan[board_info.cook_type][3].humidity_factor);
+                while(1) ;
                 board_info.fan[board_info.cook_type][4].humidity = board_info.fan[board_info.cook_type][4].humidity * board_info.fan[board_info.cook_type][4].humidity_factor;
             }
 
@@ -550,7 +584,7 @@ void fan_up(void) {
             if((board_info.delta_humidity > board_info.delta_fan[board_info.cook_type][2].humidity && board_info.delta_humidity < board_info.delta_fan[board_info.cook_type][3].humidity) 
             || (board_info.delta_smell > board_info.delta_fan[board_info.cook_type][2].smell && board_info.delta_smell < board_info.delta_fan[board_info.cook_type][3].smell)
             || (board_info.humidity > board_info.fan[board_info.cook_type][2].humidity && board_info.humidity < board_info.fan[board_info.cook_type][3].humidity) 
-            || (board_info.smell > board_info.delta_fan[board_info.cook_type][2].smell && board_info.smell < board_info.fan[board_info.cook_type][3].smell)) {
+            || (board_info.smell > board_info.fan[board_info.cook_type][2].smell && board_info.smell < board_info.fan[board_info.cook_type][3].smell)) {
                 board_info.fan_level_index = 2;
                 board_info.fanx_run_time = 0;
                 board_info.high_temp_up = 0;
@@ -559,7 +593,17 @@ void fan_up(void) {
                 board_info.condition2_down = 0;
                 board_info.condition3_down = 0;
                 board_info.condition3_down_time = 0;
-                board_info.condition4_down = 0;                   
+                board_info.condition4_down = 0;        
+                DBG(ASCII_COLOR_YEL, "smell:%d, humidity:%d!\r\n", board_info.smell, board_info.humidity);
+                DBG(ASCII_COLOR_YEL, "delta_smell:%d, delta_humidity:%d!\r\n", board_info.delta_smell, board_info.delta_humidity);
+                DBG(ASCII_COLOR_YEL, "board_info.fan[%d][2].smell:%d, board_info.fan[%d][2].humidity:%d\r\n", 
+                    board_info.cook_type, board_info.fan[board_info.cook_type][2].smell, board_info.cook_type, board_info.fan[board_info.cook_type][2].humidity);            
+                DBG(ASCII_COLOR_YEL, "board_info.fan[%d][3].smell:%d, board_info.fan[%d][3].humidity:%d\r\n", 
+                    board_info.cook_type, board_info.fan[board_info.cook_type][3].smell, board_info.cook_type, board_info.fan[board_info.cook_type][3].humidity);
+                DBG(ASCII_COLOR_YEL, "board_info.delta_fan[%d][2].smell:%d, board_info.delta_fan[%d][2].humidity:%d\r\n", 
+                    board_info.cook_type, board_info.delta_fan[board_info.cook_type][2].smell, board_info.cook_type, board_info.delta_fan[board_info.cook_type][2].humidity);                
+                DBG(ASCII_COLOR_YEL, "board_info.delta_fan[%d][3].smell:%d, board_info.delta_fan[%d][3].humidity:%d\r\n", 
+                    board_info.cook_type, board_info.delta_fan[board_info.cook_type][3].smell, board_info.cook_type, board_info.delta_fan[board_info.cook_type][3].humidity);                           
                 set_fan(board_info.fan_speed[board_info.fan_level_index]);
                 board_info.fan_level = board_info.fan_speed[board_info.fan_level_index];
             }
@@ -575,7 +619,15 @@ void fan_up(void) {
                 board_info.condition2_down = 0;
                 board_info.condition3_down = 0;
                 board_info.condition3_down_time = 0;
-                board_info.condition4_down = 0;                      
+                board_info.condition4_down = 0;     
+                DBG(ASCII_COLOR_YEL, "smell:%d, humidity:%d!\r\n", board_info.smell, board_info.humidity);
+                DBG(ASCII_COLOR_YEL, "delta_smell:%d, delta_humidity:%d!\r\n", board_info.delta_smell, board_info.delta_humidity);
+
+                DBG(ASCII_COLOR_YEL, "board_info.fan[%d][3].smell:%d, board_info.fan[%d][3].humidity:%d\r\n", 
+                    board_info.cook_type, board_info.fan[board_info.cook_type][3].smell, board_info.cook_type, board_info.fan[board_info.cook_type][3].humidity);
+                DBG(ASCII_COLOR_YEL, "board_info.delta_fan[%d][3].smell:%d, board_info.delta_fan[%d][3].humidity:%d\r\n", 
+                    board_info.cook_type, board_info.delta_fan[board_info.cook_type][3].smell, board_info.cook_type, board_info.delta_fan[board_info.cook_type][3].humidity);   
+
                 set_fan(board_info.fan_speed[board_info.fan_level_index]);
                 board_info.fan_level = board_info.fan_speed[board_info.fan_level_index];
             }
@@ -583,6 +635,7 @@ void fan_up(void) {
 
         if(board_info.smell > board_info.fan[board_info.cook_type][2].smell) {
             board_info.high_temp_up ++;
+            DBG(ASCII_COLOR_GRN, "++board_info.high_time_up:%d, %d\r\n", board_info.high_temp_up, board_info.delay_up * 2);
             if(board_info.high_temp_up > board_info.delay_up * 2) {
                 board_info.fan_level_index = 2;
                 board_info.fanx_run_time = 0;
@@ -599,10 +652,12 @@ void fan_up(void) {
         }
         else {
             if(board_info.high_temp_up > 0) board_info.high_temp_up --;
+            DBG(ASCII_COLOR_GRN, "--board_info.high_time_up:%d, %d\r\n", board_info.high_temp_up, board_info.delay_up * 2);
         }
 
         if(board_info.delta_smell > board_info.delta_fan[board_info.cook_type][2].smell) {
             board_info.delta_high_temp_up ++;
+            DBG(ASCII_COLOR_GRN, "++board_info.delta_high_time_up:%d, %d\r\n", board_info.delta_high_temp_up, board_info.delay_up);
             if(board_info.delta_high_temp_up > board_info.delay_up) {
                 board_info.fan_level_index = 2;
                 board_info.fanx_run_time = 0;
@@ -612,17 +667,21 @@ void fan_up(void) {
                 board_info.condition2_down = 0;
                 board_info.condition3_down = 0;
                 board_info.condition3_down_time = 0;
-                board_info.condition4_down = 0;                
+                board_info.condition4_down = 0;         
+                     
                 set_fan(board_info.fan_speed[board_info.fan_level_index]);
                 board_info.fan_level = board_info.fan_speed[board_info.fan_level_index];
             }
         }
         else {
             if(board_info.delta_high_temp_up > 0) board_info.delta_high_temp_up --;
+            DBG(ASCII_COLOR_GRN, "--board_info.delta_high_time_up:%d, %d\r\n", board_info.delta_high_temp_up, board_info.delay_up);
         }                
         break;
     case 2:
         board_info.fanx_run_time ++;
+        if(board_info.fanx_run_time < board_info.delay_up) break;
+        DBG(ASCII_COLOR_GRN, "board_info.fan2_run_time:%d\r\n", board_info.fanx_run_time);
 //        if(board_info.fanx_run_time > board_info.delay_up + 2) {
 //            if((board_info.smell > board_info.fan[board_info.cook_type][3].smell) 
 //                || (board_info.humidity > board_info.fan[board_info.cook_type][3].humidity)
@@ -639,7 +698,18 @@ void fan_up(void) {
         if((board_info.delta_humidity > board_info.delta_fan[board_info.cook_type][3].humidity && board_info.delta_humidity < board_info.delta_fan[board_info.cook_type][4].humidity) 
         || (board_info.delta_smell > board_info.delta_fan[board_info.cook_type][3].smell && board_info.delta_smell < board_info.delta_fan[board_info.cook_type][4].smell)
         || (board_info.humidity > board_info.fan[board_info.cook_type][3].humidity && board_info.humidity < board_info.fan[board_info.cook_type][4].humidity) 
-        || (board_info.smell > board_info.delta_fan[board_info.cook_type][3].smell && board_info.smell < board_info.fan[board_info.cook_type][4].smell)) {
+        || (board_info.smell > board_info.fan[board_info.cook_type][3].smell && board_info.smell < board_info.fan[board_info.cook_type][4].smell)) {
+            DBG(ASCII_COLOR_YEL, "higher than 4, force to fan3!\r\n");
+            DBG(ASCII_COLOR_YEL, "smell:%d, humidity:%d!\r\n", board_info.smell, board_info.humidity);
+            DBG(ASCII_COLOR_YEL, "delta_smell:%d, delta_humidity:%d!\r\n", board_info.delta_smell, board_info.delta_humidity);
+            DBG(ASCII_COLOR_YEL, "board_info.fan[%d][3].smell:%d, board_info.fan[%d][3].humidity:%d\r\n", 
+                board_info.cook_type, board_info.fan[board_info.cook_type][3].smell, board_info.cook_type, board_info.fan[board_info.cook_type][3].humidity);            
+            DBG(ASCII_COLOR_YEL, "board_info.fan[%d][4].smell:%d, board_info.fan[%d][4].humidity:%d\r\n", 
+                board_info.cook_type, board_info.fan[board_info.cook_type][4].smell, board_info.cook_type, board_info.fan[board_info.cook_type][4].humidity);
+            DBG(ASCII_COLOR_YEL, "board_info.delta_fan[%d][3].smell:%d, board_info.delta_fan[%d][3].humidity:%d\r\n", 
+                board_info.cook_type, board_info.delta_fan[board_info.cook_type][3].smell, board_info.cook_type, board_info.delta_fan[board_info.cook_type][3].humidity);                
+            DBG(ASCII_COLOR_YEL, "board_info.delta_fan[%d][4].smell:%d, board_info.delta_fan[%d][4].humidity:%d\r\n", 
+                board_info.cook_type, board_info.delta_fan[board_info.cook_type][4].smell, board_info.cook_type, board_info.delta_fan[board_info.cook_type][4].humidity);
             board_info.fan_level_index = 3;
             board_info.fanx_run_time = 0;
             board_info.high_temp_up = 0;
@@ -651,6 +721,14 @@ void fan_up(void) {
         || (board_info.humidity > board_info.fan[board_info.cook_type][4].humidity)
         || (board_info.delta_smell > board_info.delta_fan[board_info.cook_type][4].smell)
         || (board_info.delta_humidity > board_info.delta_fan[board_info.cook_type][4].humidity)) {
+            DBG(ASCII_COLOR_YEL, "smell higher than 4, force to fan3!\r\n");
+            DBG(ASCII_COLOR_YEL, "smell:%d, humidity:%d!\r\n", board_info.smell, board_info.humidity);
+            DBG(ASCII_COLOR_YEL, "delta_smell:%d, delta_humidity:%d!\r\n", board_info.delta_smell, board_info.delta_humidity);
+            DBG(ASCII_COLOR_YEL, "board_info.delta_fan[%d][4].smell:%d, board_info.fan[%d][4].humidity:%d\r\n", 
+                board_info.cook_type, board_info.fan[board_info.cook_type][4].smell, board_info.cook_type, board_info.fan[board_info.cook_type][4].humidity);
+            DBG(ASCII_COLOR_YEL, "board_info.delta_fan[%d][4].smell:%d, board_info.delta_an[%d][4].humidity:%d\r\n", 
+                board_info.cook_type, board_info.delta_fan[board_info.cook_type][4].smell, board_info.cook_type, board_info.delta_fan[board_info.cook_type][4].humidity);
+
             board_info.fan_level_index = board_info.fan_level_index + 2 > 3 ? 3 : board_info.fan_level_index + 2;
             board_info.fanx_run_time = 0;
             board_info.high_temp_up = 0;
@@ -666,6 +744,7 @@ void fan_up(void) {
 
         if(board_info.smell > board_info.fan[board_info.cook_type][2].smell) {
             board_info.high_temp_up ++;
+            DBG(ASCII_COLOR_RED, "++board_info.high_temp_up:%d in fan2, delay_up:%d\r\n", board_info.high_temp_up, board_info.delay_up * 2);
             if(board_info.high_temp_up > board_info.delay_up * 2) {
                 board_info.fan_level_index = 3;
                 board_info.fanx_run_time = 0;
@@ -682,10 +761,12 @@ void fan_up(void) {
         }
         else {
             if(board_info.high_temp_up > 0) board_info.high_temp_up --;
+            DBG(ASCII_COLOR_RED, "--board_info.high_temp_up:%d in fan2, delay_up:%d\r\n", board_info.high_temp_up, board_info.delay_up * 2);
         }
 
         if(board_info.delta_smell > board_info.delta_fan[board_info.cook_type][2].smell) {
             board_info.delta_high_temp_up ++;
+            DBG(ASCII_COLOR_RED, "++board_info.delta_high_temp_up:%d in fan2, delay_up:%d\r\n", board_info.delta_high_temp_up, board_info.delay_up);
             if(board_info.delta_high_temp_up > board_info.delay_up) {
                 board_info.fan_level_index = 3;
                 board_info.fanx_run_time = 0;
@@ -702,10 +783,12 @@ void fan_up(void) {
         }
         else {
             if(board_info.delta_high_temp_up > 0) board_info.delta_high_temp_up --;
+            DBG(ASCII_COLOR_RED, "--board_info.delta_high_temp_up:%d in fan2, delay_up:%d\r\n", board_info.delta_high_temp_up, board_info.delay_up);
         }               
         break;
     case 3:
         board_info.fanx_run_time ++;
+        DBG(ASCII_COLOR_YEL, "runx in fan3 %d\r\n", board_info.fanx_run_time);
         break;
     default:
         break; 
@@ -719,10 +802,11 @@ void fan_down(void) {
             board_info.timerd_run --;
 
             if(board_info.timerd_run == 0) {
-                board_info.fan_level = 0;
+                board_info.fan_level = board_info.fan_level_index = 0;
                 board_info.timerd_run_flag = 0;
                 board_info.fire_flag = 0;
-                set_fan(0);                
+                set_fan(0);     
+                board_info.preoff = 0;           
             }
             return ;
         }
@@ -731,34 +815,42 @@ void fan_down(void) {
     case 0:
         break;
     case 1:
+        DBG(ASCII_COLOR_YEL, "in fan-yj-1 no person run time\r\n", board_info.fan1_run_time);
         if(board_info.person == 0)
             board_info.fan1_run_time ++;
         else
             board_info.fan1_run_time = board_info.fan1_run_time > 0 ? board_info.fan1_run_time - 1 : 0;
-
+        //4.2
         if(board_info.fan1_run_time >= 3600) {
             board_info.fan1_run_time = 0;
-            board_info.fan_level = 0;
+            board_info.fan_level = board_info.fan_level_index = 0;
             set_fan(0);
-            board_info.preoff = 1;
+            board_info.preoff = 10;
         }
-
-        if(board_info.temp < board_info.fan[board_info.cook_type][0].temp) {
-            board_info.condition4_down ++;
-        }
-        else {
-            board_info.condition4_down = board_info.condition4_down > 0 ? board_info.condition4_down - 1 : 0;
-        }
+        //4.2
+        // if(board_info.temp < board_info.fan[board_info.cook_type][0].temp) {
+        //     board_info.condition4_down ++;
+        //     DBG(ASCII_COLOR_YEL, "in fan-yj-1, temp < fan0 board_info.condition4_down:%d, %d\r\n", board_info.condition3_down, 180);
+        // }
+        // else {
+        //     board_info.condition4_down = board_info.condition4_down > 0 ? board_info.condition4_down - 1 : 0;
+        // }
         
-        if(board_info.condition4_down >= 180) {
-            board_info.condition4_down = 0;
-            board_info.fan_level = 0;
-            set_fan(0);
-            board_info.preoff = 1;
-        }     
+        // if(board_info.condition4_down >= 180) {
+        //     board_info.condition4_down = 0;
+        //     board_info.fan_level = board_info.fan_level_index = 0;
+        //     set_fan(0);
+        //     board_info.preoff = 10;
+        // }     
 
-        if(board_info.temp < board_info.fan[board_info.cook_type][0].temp) {
+        if((board_info.delta_temp < board_info.delta_fan[board_info.cook_type][0].temp)
+            && (/*(board_info.delta_smell < board_info.delta_fan[board_info.cook_type][0].smell || board_info.delta_humidity < board_info.delta_fan[board_info.cook_type][0].humidity) 
+            || */(board_info.smell < board_info.fan[board_info.cook_type][0].smell && board_info.humidity < board_info.fan[board_info.cook_type][0].humidity
+            && board_info.temp < board_info.fan[board_info.cook_type][0].temp))) {
             board_info.condition3_down ++;
+            DBG(ASCII_COLOR_YEL, "in fan-yj-1, temp < fan0 board_info.condition3_down:%d, %d\r\n", board_info.condition3_down, board_info.delay_off);
+            DBG(ASCII_COLOR_GRN, "board_info.smell:%d, board_info.fan[board_info.cook_type][0].smell:%d, board_info.humidity:%d, board_info.fan[board_info.cook_type][0].humidity:%d\r\n",
+                board_info.smell, board_info.fan[board_info.cook_type][0].smell, board_info.humidity, board_info.fan[board_info.cook_type][0].humidity);            
         }
         else {
             board_info.condition3_down = board_info.condition3_down > 0 ? board_info.condition3_down - 1 : 0;
@@ -766,20 +858,30 @@ void fan_down(void) {
 
         if(board_info.condition3_down >= board_info.delay_off) {
             board_info.condition3_down = 0;
-            board_info.fan_level = 0;
+            board_info.fan_level = board_info.fan_level_index = 0;
             set_fan(0);
-            board_info.preoff = 1;
+            board_info.preoff = 10;
         }    
         break;
     default:
-        if(board_info.fan_level_index == 2 || board_info.fan_level_index == 1) {//3.4
+        if(board_info.fanx_run_time < board_info.delay_down) break;
+        //3.4
+        if(board_info.fan_level_index == 2 || board_info.fan_level_index == 1) {
             if(board_info.temp < board_info.fan[board_info.cook_type][board_info.fan_level_index].temp) {
                 board_info.condition4_down ++;
+                DBG(ASCII_COLOR_YEL, "3.4 board_info.condition4_down:%d, %d\r\n", board_info.condition4_down, board_info.delay_down);
                 if(board_info.condition4_down > board_info.delay_down) {
-                    board_info.fan_level -= 1;
+                    if(board_info.fan_level_index > 1) {
+                        board_info.fan_level_index -= 1;
+                        board_info.fan_level = board_info.fan_speed[board_info.fan_level_index];
+                    }
+                    else {
+                        board_info.fan_level -= 1;
+                    }
+
                     board_info.condition4_down = 0;
-                    if(board_info.fan_level <= board_info.fan_speed[board_info.fan_level_index - 1]) board_info.fan_level_index --; 
                     set_fan(board_info.fan_level);
+                    break;
                     if(board_info.fan_level == 0) board_info.fan_level_index = 0;                    
                 }
             }
@@ -788,66 +890,100 @@ void fan_down(void) {
             }
         }
         //3.1
-        if(board_info.delta_humidity <= board_info.delta_fan[board_info.cook_type][0].humidity || board_info.delta_smell <= board_info.delta_fan[board_info.cook_type][0].smell
-        || board_info.humidity <= board_info.fan[board_info.cook_type][board_info.fan_level_index + 1].humidity || board_info.smell <= board_info.fan[board_info.cook_type][board_info.fan_level_index + 1].smell
-        || board_info.humidity <= board_info.fan[board_info.cook_type][0].humidity || board_info.smell <= board_info.fan[board_info.cook_type][0].smell) {
+        if(/*(board_info.delta_humidity <= board_info.delta_fan[board_info.cook_type][0].humidity || board_info.delta_smell <= board_info.delta_fan[board_info.cook_type][0].smell)
+        && */((board_info.humidity <= board_info.fan[board_info.cook_type][board_info.fan_level_index].humidity && board_info.smell <= board_info.fan[board_info.cook_type][board_info.fan_level_index].smell)
+        || (board_info.humidity <= board_info.fan[board_info.cook_type][0].humidity && board_info.smell <= board_info.fan[board_info.cook_type][0].smell))) {
             board_info.condition1_down ++;
+            DBG(ASCII_COLOR_YEL, "3.1 board_info.condition1_down:%d, %d\r\n", board_info.condition1_down, board_info.delay_down);
+            DBG(ASCII_COLOR_YEL, "smell:%d, humidity:%d!\r\n", board_info.smell, board_info.humidity);
+            DBG(ASCII_COLOR_YEL, "delta_smell:%d, delta_humidity:%d!\r\n", board_info.delta_smell, board_info.delta_humidity);
+
+            DBG(ASCII_COLOR_YEL, "board_info.fan[%d][%d].smell:%d, board_info.fan[%d][%d].humidity:%d\r\n", 
+                board_info.cook_type, board_info.fan_level_index, board_info.fan[board_info.cook_type][board_info.fan_level_index].smell, 
+                board_info.cook_type, board_info.fan_level_index, board_info.fan[board_info.cook_type][board_info.fan_level_index].humidity);     
+
+            DBG(ASCII_COLOR_YEL, "board_info.delta_fan[%d][0].smell:%d, board_info.delta_an[%d][0].humidity:%d\r\n", 
+                board_info.cook_type, board_info.fan[board_info.cook_type][0].smell, 
+                board_info.cook_type, board_info.fan[board_info.cook_type][0].humidity); 
+
             if(board_info.condition1_down > board_info.delay_down) {
-                board_info.fan_level -= 1;
                 board_info.condition1_down = 0;
-                if(board_info.fan_level <= board_info.fan_speed[board_info.fan_level_index - 1]) board_info.fan_level_index --; 
+
+                if(board_info.fan_level_index > 1) {
+                    board_info.fan_level_index -= 1;
+                    board_info.fan_level = board_info.fan_speed[board_info.fan_level_index];
+                }
+                else {
+                    board_info.fan_level -= 1;
+                }                
                 set_fan(board_info.fan_level);
-                if(board_info.fan_level == 0) board_info.fan_level_index = 0;
+                break;
             }
         }
         else {
             board_info.condition1_down = board_info.condition1_down > 0 ? board_info.condition1_down - 1 : 0;
         }
         //3.2
-        if(board_info.delta_temp <= board_info.delta_fan[board_info.cook_type][0].temp) {
-            board_info.condition2_down ++;
-            if(board_info.condition2_down > board_info.delay_down) {
-                board_info.fan_level -= 1;
-                board_info.condition2_down = 0;
-                if(board_info.fan_level <= board_info.fan_speed[board_info.fan_level_index - 1]) board_info.fan_level_index --; 
-                set_fan(board_info.fan_level);
-                if(board_info.fan_level == 0) board_info.fan_level_index = 0;                    
-            }
-        }
-        else {
-            board_info.condition2_down = board_info.condition2_down > 0 ? board_info.condition2_down - 1 : 0;
-        }
+        // if(board_info.delta_temp <= board_info.delta_fan[board_info.cook_type][0].temp) {
+        //     board_info.condition2_down ++;
+        //     DBG(ASCII_COLOR_YEL, "3.2 board_info.condition2_down:%d, %d\r\n", board_info.condition2_down, board_info.delay_down);
+        //     if(board_info.condition2_down > board_info.delay_down) {
+        //         board_info.condition2_down = 0;
+        //         if(board_info.fan_level_index > 1) {
+        //             board_info.fan_level_index -= 1;
+        //             board_info.fan_level = board_info.fan_speed[board_info.fan_level_index];
+        //         }
+        //         else {
+        //             board_info.fan_level -= 1;
+        //         }                
+        //         set_fan(board_info.fan_level);
+        //         break;
+        //         if(board_info.fan_level == 0) board_info.fan_level_index = 0;                    
+        //     }
+        // }
+        // else {
+        //     board_info.condition2_down = board_info.condition2_down > 0 ? board_info.condition2_down - 1 : 0;
+        // }
 
         //3.3
-        if(board_info.delta_humidity <= board_info.delta_fan[board_info.cook_type][0].humidity && board_info.delta_smell <= board_info.delta_fan[board_info.cook_type][0].smell
-        && board_info.delta_temp <= board_info.delta_fan[board_info.cook_type][0].temp) {
-            board_info.condition3_down ++;
-            
-            if(board_info.condition3_down_time == 0) {
-                if(board_info.condition3_down >= board_info.delay_down * 3) {
-                    board_info.condition3_down_time ++;
-                    board_info.condition3_down = 0;
-                    board_info.fan_level -= 1;
-                    if(board_info.fan_level <= board_info.fan_speed[board_info.fan_level_index - 1]) board_info.fan_level_index --; 
-                    set_fan(board_info.fan_level);
-                    if(board_info.fan_level == 0) board_info.fan_level_index = 0;                                  
-                }
-            }
-            else {
-                if(board_info.condition3_down >= board_info.delay_down) {
-                    board_info.condition3_down_time ++;
-                    board_info.condition3_down = 0;
-                    if(board_info.fan_level <= board_info.fan_speed[board_info.fan_level_index - 1]) board_info.fan_level_index --; 
-                    set_fan(board_info.fan_level);
-                    if(board_info.fan_level == 0) board_info.fan_level_index = 0;                                  
-                }                    
-            }
-                
-        }
-
-        else {
-            board_info.condition3_down = board_info.condition3_down > 0 ? board_info.condition3_down - 1 : 0;
-        }    
+        // if(board_info.delta_humidity <= board_info.delta_fan[board_info.cook_type][0].humidity && board_info.delta_smell <= board_info.delta_fan[board_info.cook_type][0].smell
+        // && board_info.delta_temp <= board_info.delta_fan[board_info.cook_type][0].temp) {
+        //     board_info.condition3_down ++;
+        //     DBG(ASCII_COLOR_YEL, "3.3 board_info.condition3_down:%d, %d\r\n", board_info.condition3_down, board_info.delay_down);
+        //     if(board_info.condition3_down_time == 0) {
+        //         if(board_info.condition3_down >= board_info.delay_down * 3) {
+        //             board_info.condition3_down_time ++;
+        //             board_info.condition3_down = 0;
+        //             if(board_info.fan_level_index > 1) {
+        //                 board_info.fan_level_index -= 1;
+        //                 board_info.fan_level = board_info.fan_speed[board_info.fan_level_index];
+        //             }
+        //             else {
+        //                 board_info.fan_level -= 1;
+        //             }
+        //             set_fan(board_info.fan_level);
+        //             break;                              
+        //         }
+        //     }
+        //     else {
+        //         if(board_info.condition3_down >= board_info.delay_down) {
+        //             board_info.condition3_down_time ++;
+        //             board_info.condition3_down = 0;
+        //             if(board_info.fan_level_index > 1) {
+        //                 board_info.fan_level_index -= 1;
+        //                 board_info.fan_level = board_info.fan_speed[board_info.fan_level_index];
+        //             }
+        //             else {
+        //                 board_info.fan_level -= 1;
+        //             }
+        //             set_fan(board_info.fan_level);
+        //             break;                              
+        //         }                    
+        //     } 
+        // }
+        // else {
+        //     board_info.condition3_down = board_info.condition3_down > 0 ? board_info.condition3_down - 1 : 0;
+        // }    
         break;
     }
 }
@@ -860,6 +996,7 @@ int main(int argc, char **argv) {
     unsigned long long seconds, seconds_prev;
     int state = 0;
     u16 min;
+    struct stat st;
 
     if(argc < 2) {
         printf("Too few parameters!\r\n");
@@ -875,12 +1012,16 @@ int main(int argc, char **argv) {
 
     DBG(ASCII_COLOR_RED, "Entrance!\r\n");
 
+    stat(argv[1], &st);
+    printf("filesize:%d\r\n", st.st_size);
+
     read_config();
     
     memset((void *)linebuf, 0x00, 1024);
     linenum = 0;
     fgets(linebuf, 1024, fp);
     printf("%d:%s\r\n", linenum, linebuf);
+    linenum ++;
 
     while(fgets(linebuf, 1024, fp) != NULL) {
         linenum ++;
@@ -888,8 +1029,8 @@ int main(int argc, char **argv) {
         min = sec_tick / 60 % 1440;
 
         //printf("%d:%s\r\n", linenum, linebuf);
-        result = sscanf(linebuf, "%*s%*d:%*d:%*d,%hd,%hd,%hd,", &board_info.temp, &board_info.humidity, &board_info.smell);
-        printf("%d, %d, %d, %d\r\n", linenum, board_info.temp, board_info.humidity, board_info.smell);
+        result = sscanf(linebuf, "%*s%*d:%*d:%*d,%hd,%hd,%hd,%hhd", &board_info.temp, &board_info.humidity, &board_info.smell, &board_info.person);
+        //printf("%d, %d, %d, %d, %d\r\n", linenum, board_info.temp, board_info.humidity, board_info.smell, board_info.person);
         if(min >= 601 && min <= 900)//10:01 ~ 15:00
             board_info.cook_type = 1;
         else if(min >= 901 && min <= 1320)//15:01 ~ 22:00
@@ -913,6 +1054,10 @@ int main(int argc, char **argv) {
             board_info.smell_base = avg(board_info.prev_smell, 10);
             DBG(ASCII_COLOR_RED, "temp_base:%d, humidity_base:%d, smell_base:%d\r\n", board_info.temp_base, board_info.humidity_base, board_info.smell_base);
 
+            board_info.fan[board_info.cook_type][0].humidity = board_info.humidity_base * board_info.fan[board_info.cook_type][0].humidity_factor;
+            board_info.fan[board_info.cook_type][0].temp = board_info.temp_base * board_info.fan[board_info.cook_type][0].temp_factor;
+            board_info.fan[board_info.cook_type][0].smell = board_info.smell_base * board_info.fan[board_info.cook_type][0].smell_factor;  
+
             board_info.fan[board_info.cook_type][1].humidity = board_info.humidity_base * board_info.fan[board_info.cook_type][1].humidity_factor;
             board_info.fan[board_info.cook_type][1].temp = board_info.temp_base * board_info.fan[board_info.cook_type][1].temp_factor;
             board_info.fan[board_info.cook_type][1].smell = board_info.smell_base * board_info.fan[board_info.cook_type][1].smell_factor;         
@@ -935,7 +1080,7 @@ int main(int argc, char **argv) {
                 DBG(ASCII_COLOR_RED, "baord_info.fan[%d][%d].temp:%d\r\n", board_info.cook_type, i, board_info.fan[board_info.cook_type][i].temp);
                 DBG(ASCII_COLOR_RED, "baord_info.fan[%d][%d].smell:%d\r\n", board_info.cook_type, i, board_info.fan[board_info.cook_type][i].smell);
             }
-            sleep(5);             
+            //sleep(5);             
         }    
 
         board_info.prev_humidity[board_info.prev_humidity_i] = board_info.humidity;
@@ -956,11 +1101,11 @@ int main(int argc, char **argv) {
         if(board_info.delta_smell_i == 0) {
             board_info.delta_smell = 0;
             board_info.delta_smell_i = 1;
-            board_info.delta_smell_prev = board_info.smell;
+            board_info.delta_smell_prev = avg(board_info.prev_smell, 10);
         }
         else {
-            board_info.delta_smell = board_info.smell - board_info.delta_smell_prev;
-            board_info.delta_smell_prev = board_info.smell;   
+            board_info.delta_smell = avg(board_info.prev_smell, 10) - board_info.delta_smell_prev;
+            board_info.delta_smell_prev = avg(board_info.prev_smell, 10);   
         }               
 
             
@@ -987,11 +1132,15 @@ int main(int argc, char **argv) {
             board_info.delta_temp = avg(board_info.prev_temp, 10) - board_info.delta_temp_prev;
             board_info.delta_temp_prev = avg(board_info.prev_temp, 10);    
         } 
-        printf("delta temp:%d, humidity:%d, smell:%d\r\n", board_info.delta_temp, board_info.delta_humidity, board_info.delta_smell);     
+        //printf("delta temp:%d, humidity:%d, smell:%d\r\n", board_info.delta_temp, board_info.delta_humidity, board_info.delta_smell);     
 
         fan_up();
         fan_down(); 
     }
+
+    DBG(ASCII_COLOR_RED, "Exit!\r\n");
+    printf("feof:%d, ferror:%d\r\n", feof(fp), ferror(fp));
+    fclose(fp);
 }
 	
 	
