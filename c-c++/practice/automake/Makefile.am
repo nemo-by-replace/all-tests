@@ -1,0 +1,3 @@
+AUTOMARK_OPTIONS=foreign
+noinst_PROGRAMS=main
+HelloWorld_SOURCES=main.c
