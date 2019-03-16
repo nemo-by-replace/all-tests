@@ -25,8 +25,8 @@ int main(int arg, char *args[])
     //
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(5000);
-    addr.sin_addr.s_addr = inet_addr("192.168.32.79");
+    addr.sin_port = htons(9995);
+    addr.sin_addr.s_addr = inet_addr("0.0.0.0");
     /*
      * INADDR_ANY表示的是IP地址(0,0,0,0)这样的主机字节序变量
      * 本来主机字节序变量转化成网络字节序变量，需要使用htonl()函数，
@@ -96,7 +96,8 @@ int main(int arg, char *args[])
                     break;
                 }
                 printf("recv message:%s\n", recvbuf);
-                write(conn, recvbuf, rc);
+                send(conn, recvbuf, rc, 0);
+                //write(conn, recvbuf, rc);
                 memset(recvbuf, 0, sizeof(recvbuf));
             }
             close(conn);

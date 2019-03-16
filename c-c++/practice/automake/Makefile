@@ -76,7 +76,7 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-noinst_PROGRAMS = main$(EXEEXT)
+noinst_PROGRAMS = hl$(EXEEXT)
 subdir = .
 DIST_COMMON = INSTALL NEWS README AUTHORS ChangeLog \
 	$(srcdir)/Makefile.in $(srcdir)/Makefile.am \
@@ -93,9 +93,9 @@ CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
-main_SOURCES = main.c
-main_OBJECTS = main.$(OBJEXT)
-main_LDADD = $(LDADD)
+am_hl_OBJECTS = main.$(OBJEXT)
+hl_OBJECTS = $(am_hl_OBJECTS)
+hl_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -124,8 +124,8 @@ AM_V_CCLD = $(am__v_CCLD_$(V))
 am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = main.c
-DIST_SOURCES = main.c
+SOURCES = $(hl_SOURCES)
+DIST_SOURCES = $(hl_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -255,7 +255,7 @@ top_build_prefix =
 top_builddir = .
 top_srcdir = .
 AUTOMARK_OPTIONS = foreign
-HelloWorld_SOURCES = main.c
+hl_SOURCES = main.c
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
@@ -314,9 +314,9 @@ distclean-hdr:
 clean-noinstPROGRAMS:
 	-test -z "$(noinst_PROGRAMS)" || rm -f $(noinst_PROGRAMS)
 
-main$(EXEEXT): $(main_OBJECTS) $(main_DEPENDENCIES) $(EXTRA_main_DEPENDENCIES) 
-	@rm -f main$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(main_OBJECTS) $(main_LDADD) $(LIBS)
+hl$(EXEEXT): $(hl_OBJECTS) $(hl_DEPENDENCIES) $(EXTRA_hl_DEPENDENCIES) 
+	@rm -f hl$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(hl_OBJECTS) $(hl_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)

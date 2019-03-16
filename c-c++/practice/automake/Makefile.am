@@ -1,3 +1,3 @@
 AUTOMARK_OPTIONS=foreign
-noinst_PROGRAMS=main
-HelloWorld_SOURCES=main.c
+noinst_PROGRAMS=hl
+hl_SOURCES=main.c
