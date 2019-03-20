@@ -7,6 +7,7 @@ const (
 	b
 	c = "zz"
 	d 
+	d1
 	e = iota
 )
 
@@ -18,9 +19,7 @@ const (
 )
 
 func main() {
-	var s string = nil
-	fmt.Println(s)
-	fmt.Println(a, b, c, d, e, f, g)
+	fmt.Println(a, b, c, d, d1, e, f, g)
 	fmt.Println(h, i)
 }
 
