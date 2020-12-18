@@ -25,7 +25,7 @@ int main(int arg, char *args[])
     //
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(9995);
+    addr.sin_port = htons(80);
     addr.sin_addr.s_addr = inet_addr("0.0.0.0");
     /*
      * INADDR_ANY表示的是IP地址(0,0,0,0)这样的主机字节序变量
